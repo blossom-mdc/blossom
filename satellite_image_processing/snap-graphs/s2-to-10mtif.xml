@@ -1,0 +1,72 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <useAdvancedOptions>true</useAdvancedOptions>
+      <file>${input}</file>
+      <copyMetadata>true</copyMetadata>
+      <bandNames/>
+      <pixelRegion/>
+      <maskNames/>
+    </parameters>
+  </node>
+  <node id="Resample">
+    <operator>Resample</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <referenceBand>B2</referenceBand>
+      <targetResolution/>
+      <upsampling>Bilinear</upsampling>
+      <resamplingPreset/>
+      <bandResamplings/>
+      <resampleOnPyramidLevels>true</resampleOnPyramidLevels>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="Resample"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>B2,B3,B4,B5,B6,B7,B8,B8A,B11,B12,quality_scene_classification</sourceBands>
+      <tiePointGrids/>
+      <region>${subset_region}</region> <!-- x,y,width,height -->
+      <referenceBand/>
+      <geoRegion />
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>${output}</file>
+      <formatName>GeoTIFF</formatName>
+      <deleteOutputOnFailure>true</deleteOutputOnFailure>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="37.0" y="134.0"/>
+    </node>
+    <node id="Resample">
+      <displayPosition x="162.0" y="133.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="297.0" y="126.0"/>
+    </node>
+    <node id="Write">
+            <displayPosition x="455.0" y="135.0"/>
+    </node>
+  </applicationData>
+</graph>
